@@ -1,528 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Easy Peptide Calculator | Research Reference</title>
-  <style>
-    :root {
-      --cream: #fbf4e8;
-      --cream2: #fffaf2;
-      --maroon: #6f0718;
-      --maroon2: #8e1026;
-      --gold: #c9a24d;
-      --text: #281f1c;
-      --muted: #6f625c;
-      --border: rgba(111, 7, 24, 0.18);
-      --shadow: 0 20px 45px rgba(60, 20, 20, 0.13);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUXE Easy Peptide Calculator</title>
 
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at top right, rgba(201,162,77,0.22), transparent 28%),
-        radial-gradient(circle at bottom left, rgba(111,7,24,0.12), transparent 30%),
-        var(--cream);
-      color: var(--text);
-    }
-
-    a { color: var(--maroon); font-weight: 800; }
-
-    .page {
-      width: min(1050px, 100%);
-      margin: 0 auto;
-      padding: 24px 16px 50px;
-    }
-
-    .hero {
-      background: linear-gradient(135deg, var(--cream2), #f4eadb);
-      border: 1px solid var(--border);
-      border-radius: 30px;
-      box-shadow: var(--shadow);
-      padding: 28px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero:after {
-      content: "LUXE";
-      position: absolute;
-      right: -20px;
-      top: 5px;
-      font-family: Georgia, serif;
-      font-size: 110px;
-      color: rgba(111,7,24,0.05);
-      pointer-events: none;
-    }
-
-    .brand {
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(52px, 9vw, 92px);
-      line-height: 0.85;
-      color: var(--maroon);
-      letter-spacing: 0.05em;
-      margin: 0;
-    }
-
-    .subbrand {
-      color: var(--maroon);
-      letter-spacing: 0.35em;
-      font-size: 12px;
-      margin-top: 12px;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      font-size: clamp(34px, 6vw, 62px);
-      line-height: 0.95;
-      margin: 28px 0 12px;
-      letter-spacing: -0.04em;
-    }
-
-    .tagline {
-      max-width: 680px;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.55;
-      margin: 0;
-    }
-
-    .notice {
-      margin-top: 20px;
-      background: var(--maroon);
-      color: white;
-      border-radius: 20px;
-      padding: 16px 18px;
-      line-height: 1.45;
-      font-size: 14px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 18px;
-      margin-top: 18px;
-    }
-
-    @media (min-width: 850px) {
-      .grid { grid-template-columns: 0.9fr 1.1fr; }
-    }
-
-    .card {
-      background: rgba(255,250,242,0.92);
-      border: 1px solid var(--border);
-      border-radius: 26px;
-      padding: 22px;
-      box-shadow: 0 12px 28px rgba(60, 20, 20, 0.08);
-    }
-
-    .card h2 {
-      margin: 0 0 12px;
-      color: var(--maroon);
-      font-size: 26px;
-    }
-
-    .steps {
-      display: grid;
-      gap: 12px;
-      margin-top: 15px;
-    }
-
-    .step {
-      display: grid;
-      grid-template-columns: 42px 1fr;
-      gap: 12px;
-      align-items: start;
-      background: white;
-      border: 1px solid rgba(201,162,77,0.35);
-      border-radius: 18px;
-      padding: 14px;
-    }
-
-    .num {
-      width: 36px;
-      height: 36px;
-      border-radius: 999px;
-      background: var(--maroon);
-      color: white;
-      display: grid;
-      place-items: center;
-      font-weight: 900;
-    }
-
-    .step strong { display: block; margin-bottom: 4px; }
-    .step span { color: var(--muted); line-height: 1.45; font-size: 14px; }
-
-    .calculator {
-      background: white;
-      border: 2px solid rgba(111,7,24,0.13);
-    }
-
-    .fieldGroup {
-      margin-top: 20px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(111,7,24,0.12);
-    }
-
-    label.title {
-      display: block;
-      color: var(--maroon);
-      font-weight: 900;
-      font-size: 17px;
-      margin-bottom: 10px;
-    }
-
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    .buttons.four { grid-template-columns: repeat(4, 1fr); }
-
-    button.option {
-      border: 1px solid rgba(111,7,24,0.22);
-      background: var(--cream2);
-      color: var(--text);
-      border-radius: 15px;
-      padding: 14px 10px;
-      font-size: 15px;
-      font-weight: 900;
-      cursor: pointer;
-    }
-
-    button.option.active {
-      background: linear-gradient(135deg, var(--maroon), var(--maroon2));
-      color: white;
-      border-color: var(--maroon);
-      box-shadow: 0 10px 18px rgba(111,7,24,0.22);
-    }
-
-    input, select {
-      width: 100%;
-      padding: 16px;
-      border-radius: 16px;
-      border: 1px solid rgba(111,7,24,0.25);
-      font-size: 18px;
-      font-weight: 900;
-      color: var(--maroon);
-      background: var(--cream2);
-      outline: none;
-    }
-
-    input { font-size: 28px; }
-
-    .hint {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .result {
-      margin-top: 22px;
-      background: linear-gradient(135deg, var(--maroon), #2b020a);
-      color: white;
-      border-radius: 24px;
-      padding: 22px;
-    }
-
-    .resultTop {
-      color: rgba(255,255,255,0.72);
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .resultGrid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .resultBox {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 18px;
-      padding: 16px;
-      text-align: center;
-    }
-
-    .big {
-      font-size: clamp(34px, 8vw, 52px);
-      font-weight: 950;
-      line-height: 1;
-      color: #f5d37a;
-    }
-
-    .smallLabel {
-      margin-top: 6px;
-      font-size: 14px;
-      font-weight: 900;
-      text-transform: uppercase;
-    }
-
-    .summary {
-      margin-top: 14px;
-      color: rgba(255,255,255,0.78);
-      font-size: 14px;
-      line-height: 1.55;
-    }
-
-    .tables {
-      display: grid;
-      gap: 18px;
-      margin-top: 18px;
-    }
-
-    @media (min-width: 720px) {
-      .tables { grid-template-columns: 1fr 1fr; }
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      overflow: hidden;
-      border-radius: 16px;
-      font-size: 14px;
-    }
-
-    th {
-      background: var(--maroon);
-      color: white;
-      text-align: left;
-      padding: 12px;
-    }
-
-    td {
-      background: white;
-      border-bottom: 1px solid rgba(111,7,24,0.1);
-      padding: 12px;
-      font-weight: 700;
-    }
-
-    .footer {
-      margin-top: 18px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.55;
-    }
-
-    .linkBox {
-      margin-top: 18px;
-      border-radius: 22px;
-      background: #fff;
-      border: 1px solid rgba(201,162,77,0.45);
-      padding: 18px;
-      line-height: 1.55;
-    }
-
-    .linkButton {
-      display: inline-block;
-      margin-top: 10px;
-      background: var(--maroon);
-      color: white;
-      text-decoration: none;
-      padding: 12px 18px;
-      border-radius: 999px;
-      font-weight: 900;
-    }
-  </style>
+<style>
+body { font-family: Arial; background:#fbf4e8; margin:0; padding:20px; color:#2b1b1b; }
+.container { max-width:900px; margin:auto; }
+.card { background:white; padding:20px; border-radius:20px; margin-bottom:20px; box-shadow:0 10px 25px rgba(0,0,0,0.08); }
+h1 { color:#6f0718; }
+label { font-weight:bold; color:#6f0718; display:block; margin-top:15px; }
+select, input { width:100%; padding:12px; border-radius:10px; border:1px solid #ccc; margin-top:5px; font-size:18px; }
+.buttons { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-top:10px; }
+button { padding:10px; border-radius:10px; border:none; font-weight:bold; cursor:pointer; }
+.active { background:#6f0718; color:white; }
+.result { background:#6f0718; color:white; padding:20px; border-radius:20px; margin-top:20px; }
+.big { font-size:36px; color:#ffd87a; }
+.footer { text-align:center; font-size:12px; margin-top:20px; }
+.linkBtn { background:#6f0718; color:white; padding:10px 15px; border-radius:20px; text-decoration:none; display:inline-block; margin-top:10px; }
+</style>
 </head>
+
 <body>
-  <main class="page">
-    <section class="hero">
-      <p class="brand">LUXE</p>
-      <div class="subbrand">Research Co.</div>
-      <h1>Easy Peptide Calculator</h1>
-      <p class="tagline">A simple research reference for mixing lyophilized vials and understanding syringe units. Choose your vial size, how much BAC water was added, and the target amount to calculate how many units to draw.</p>
-      <div class="notice"><strong>For research purposes only.</strong> Not for human consumption. Not medical advice. This calculator is for educational measurement reference only.</div>
-    </section>
+<div class="container">
 
-    <section class="grid">
-      <div class="card">
-        <h2>How to Reconstitute</h2>
-        <p class="hint">Simple version: keep everything clean, add the water slowly, and do not shake.</p>
-        <div class="steps">
-          <div class="step"><div class="num">1</div><div><strong>Let the vial warm up</strong><span>Remove from cold storage and let it reach room temperature before opening.</span></div></div>
-          <div class="step"><div class="num">2</div><div><strong>Sanitize the top</strong><span>Use an alcohol wipe to clean the rubber stopper before adding anything.</span></div></div>
-          <div class="step"><div class="num">3</div><div><strong>Add BAC water slowly</strong><span>Use a sterile syringe and let the water run down the side of the vial.</span></div></div>
-          <div class="step"><div class="num">4</div><div><strong>Gently swirl</strong><span>Swirl gently until dissolved. Do not shake the vial.</span></div></div>
-        </div>
+<div class="card">
+<h1>LUXE</h1>
+<p><strong>Easy Peptide Calculator</strong></p>
+<p>For research purposes only. Not for human consumption.</p>
+</div>
 
-        <div class="linkBox">
-          <strong>Need to visit LUXE Research Co?</strong><br />
-          Use the button below for easy access.
-          <br />
-          <a class="linkButton" href="https://www.luxeresearchco.com" target="_blank" rel="noopener">Visit LUXE Research Co</a>
-        </div>
-      </div>
+<div class="card">
+<h2>Calculator</h2>
 
-      <div class="card calculator">
-        <h2>Calculator</h2>
-        <p class="hint">Key rule: on a U-100 style syringe, <strong>100 units = 1 mL</strong>.</p>
+<label>1. What is the vial concentration?</label>
+<select id="vialSelect">
+<option value="5">5 mg</option>
+<option value="10" selected>10 mg</option>
+<option value="15">15 mg</option>
+<option value="20">20 mg</option>
+<option value="30">30 mg</option>
+<option value="40">40 mg</option>
+<option value="50">50 mg</option>
+<option value="60">60 mg</option>
+<option value="80">80 mg</option>
+<option value="100">100 mg</option>
+<option value="500">500 mg</option>
+<option value="1000">1000 mg</option>
+</select>
 
-        <div class="fieldGroup">
-          <label class="title" for="vialSelect">1. What size is the vial?</label>
-          <select id="vialSelect">
-            <option value="5">5 mg vial</option>
-            <option value="10" selected>10 mg vial</option>
-            <option value="15">15 mg vial</option>
-            <option value="20">20 mg vial</option>
-            <option value="30">30 mg vial</option>
-            <option value="40">40 mg vial</option>
-            <option value="50">50 mg vial</option>
-            <option value="60">60 mg vial</option>
-            <option value="80">80 mg vial</option>
-            <option value="100">100 mg vial</option>
-            <option value="500">500 mg vial</option>
-            <option value="1000">1000 mg vial</option>
-          </select>
-        </div>
+<label>2. How much BAC water did you add?</label>
+<div class="buttons">
+<button class="waterBtn" data-water="1">1mL</button>
+<button class="waterBtn" data-water="2">2mL</button>
+<button class="waterBtn active" data-water="3">3mL</button>
+<button class="waterBtn" data-water="5">5mL</button>
+<button class="waterBtn" data-water="10">10mL</button>
+</div>
 
-        <div class="fieldGroup">
-          <label class="title">2. How much BAC water did you add?</label>
-          <div class="buttons four">
-            <button class="option" data-water="1" type="button">1 mL</button>
-            <button class="option" data-water="2" type="button">2 mL</button>
-            <button class="option active" data-water="3" type="button">3 mL</button>
-            <button class="option" data-water="5" type="button">5 mL</button>
-          </div>
-          <div class="hint">Most LUXE examples use 3 mL, but choose whatever was actually added.</div>
-        </div>
+<label>3. Target amount (mg)</label>
+<input id="dose" type="number" value="1">
 
-        <div class="fieldGroup">
-          <label class="title" for="dose">3. Target amount</label>
-          <input id="dose" type="number" value="1" min="0" step="0.1" inputmode="decimal" />
-          <div class="hint">Enter the amount in mg. Example: 1, 2.5, 5, etc.</div>
-        </div>
+<div class="result">
+<p>Draw:</p>
+<div class="big" id="units">30</div>
+<p>units</p>
+<p id="summary"></p>
+</div>
+</div>
 
-        <div class="result">
-          <div class="resultTop">Your result</div>
-          <div class="resultGrid">
-            <div class="resultBox">
-              <div class="big" id="unitsResult">30</div>
-              <div class="smallLabel">units</div>
-            </div>
-            <div class="resultBox">
-              <div class="big" id="mlResult">0.30</div>
-              <div class="smallLabel">mL</div>
-            </div>
-          </div>
-          <div class="summary" id="summaryText">10 mg vial mixed with 3 mL = 3.33 mg/mL. A 1 mg target equals 30 units.</div>
-        </div>
-      </div>
-    </section>
+<div class="card">
+<p><strong>Need to purchase your research peptides or BAC water (up to 10mL)?</strong></p>
+<a class="linkBtn" href="https://www.luxeresearchco.com" target="_blank">Visit LUXE Research Co</a>
+</div>
 
-    <section class="tables">
-      <div class="card">
-        <h2>10 mg Quick Chart</h2>
-        <p class="hint">Based on 10 mg vial mixed with 3 mL BAC water.</p>
-        <table>
-          <thead><tr><th>Target Amount</th><th>Draw</th></tr></thead>
-          <tbody>
-            <tr><td>1 mg</td><td>30 units</td></tr>
-            <tr><td>2 mg</td><td>60 units</td></tr>
-            <tr><td>3 mg</td><td>90 units</td></tr>
-            <tr><td>3.3 mg</td><td>99 units</td></tr>
-            <tr><td>5 mg</td><td>150 units*</td></tr>
-          </tbody>
-        </table>
-      </div>
+<div class="footer">
+Educational use only. Verify all measurements.
+</div>
 
-      <div class="card">
-        <h2>30 mg Quick Chart</h2>
-        <p class="hint">Based on 30 mg vial mixed with 3 mL BAC water.</p>
-        <table>
-          <thead><tr><th>Target Amount</th><th>Draw</th></tr></thead>
-          <tbody>
-            <tr><td>5 mg</td><td>50 units</td></tr>
-            <tr><td>10 mg</td><td>100 units</td></tr>
-            <tr><td>15 mg</td><td>150 units*</td></tr>
-            <tr><td>20 mg</td><td>200 units*</td></tr>
-            <tr><td>30 mg</td><td>300 units*</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+</div>
 
-    <p class="footer">
-      This independent resource page is for research and educational measurement reference only. Not for human consumption. Not medical advice. Always verify calculations before use. *Amounts over 100 units require more than one full 1 mL syringe.
-    </p>
-  </main>
+<script>
+let vial = 10;
+let water = 3;
 
-  <script>
-    let vialMg = 10;
-    let waterMl = 3;
+const vialSelect = document.getElementById("vialSelect");
+const doseInput = document.getElementById("dose");
+const unitsDisplay = document.getElementById("units");
+const summary = document.getElementById("summary");
 
-    const doseInput = document.getElementById('dose');
-    const unitsResult = document.getElementById('unitsResult');
-    const mlResult = document.getElementById('mlResult');
-    const summaryText = document.getElementById('summaryText');
-    const vialSelect = document.getElementById('vialSelect');
+function calculate(){
+let dose = Number(doseInput.value);
+let concentration = vial / water;
+let ml = dose / concentration;
+let units = ml * 100;
 
-    function cleanNumber(num, decimals = 1) {
-      if (!Number.isFinite(num)) return '0';
-      const fixed = Number(num).toFixed(decimals);
-      return fixed.replace(/\.0+$/, '').replace(/(\.\d*[1-9])0+$/, '$1');
-    }
+unitsDisplay.innerText = units.toFixed(1);
+summary.innerText = `${vial}mg vial with ${water}mL = ${concentration.toFixed(2)} mg/mL`;
+}
 
-    function calculateValues(selectedVialMg, selectedWaterMl, desiredMg) {
-      const concentration = selectedVialMg / selectedWaterMl;
-      const mlToDraw = desiredMg / concentration;
-      const units = mlToDraw * 100;
+vialSelect.addEventListener("change", function(){
+vial = Number(this.value);
+calculate();
+});
 
-      return {
-        concentration,
-        mlToDraw,
-        units
-      };
-    }
+document.querySelectorAll(".waterBtn").forEach(btn => {
+btn.addEventListener("click", function(){
+document.querySelectorAll(".waterBtn").forEach(b=>b.classList.remove("active"));
+this.classList.add("active");
+water = Number(this.dataset.water);
+calculate();
+});
+});
 
-    function calculate() {
-      const desiredMg = Number(doseInput.value) || 0;
-      const result = calculateValues(vialMg, waterMl, desiredMg);
+doseInput.addEventListener("input", calculate);
 
-      unitsResult.textContent = cleanNumber(result.units, 1);
-      mlResult.textContent = cleanNumber(result.mlToDraw, 2);
-      summaryText.textContent = `${vialMg} mg vial mixed with ${waterMl} mL = ${cleanNumber(result.concentration, 2)} mg/mL. A ${cleanNumber(desiredMg, 2)} mg target equals ${cleanNumber(result.units, 1)} units.`;
-    }
+calculate();
+</script>
 
-    vialSelect.addEventListener('change', () => {
-      vialMg = Number(vialSelect.value);
-      calculate();
-    });
-
-    document.querySelectorAll('[data-water]').forEach((button) => {
-      button.addEventListener('click', () => {
-        document.querySelectorAll('[data-water]').forEach((b) => b.classList.remove('active'));
-        button.classList.add('active');
-        waterMl = Number(button.dataset.water);
-        calculate();
-      });
-    });
-
-    doseInput.addEventListener('input', calculate);
-
-    function runCalculatorTests() {
-      const testOne = calculateValues(10, 3, 1);
-      console.assert(Math.abs(testOne.units - 30) < 0.0001, 'Test failed: 10mg vial + 3mL water + 1mg target should equal 30 units.');
-
-      const testTwo = calculateValues(30, 3, 5);
-      console.assert(Math.abs(testTwo.units - 50) < 0.0001, 'Test failed: 30mg vial + 3mL water + 5mg target should equal 50 units.');
-
-      const testThree = calculateValues(1000, 5, 10);
-      console.assert(Math.abs(testThree.units - 5) < 0.0001, 'Test failed: 1000mg vial + 5mL water + 10mg target should equal 5 units.');
-    }
-
-    calculate();
-    runCalculatorTests();
-  </script>
 </body>
 </html>
